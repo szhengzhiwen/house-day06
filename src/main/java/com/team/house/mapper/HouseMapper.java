@@ -2,6 +2,8 @@ package com.team.house.mapper;
 
 import com.team.house.entity.House;
 import com.team.house.entity.HouseExample;
+import com.team.house.util.HouseCondition;
+
 import java.util.List;
 
 public interface HouseMapper {
@@ -27,4 +29,7 @@ public interface HouseMapper {
 
     //查询所有未|已审核的出租房
     List<House> getHouseByPassState(Integer state);
+
+    //实现浏览出租房  分页插件,无需考虑分页
+    List<House> getHouseByBroswer(HouseCondition condition);
 }
