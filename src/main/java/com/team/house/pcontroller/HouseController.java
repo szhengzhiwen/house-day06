@@ -1,8 +1,10 @@
 package com.team.house.pcontroller;
 
+import com.github.pagehelper.PageInfo;
 import com.team.house.entity.House;
 import com.team.house.entity.Users;
 import com.team.house.service.HouseService;
+import com.team.house.util.HouseCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -117,5 +119,18 @@ public class HouseController {
         //调用业务删除
         int temp = houseService.delHouse(id, 1);
         return "{\"result\":"+temp+"}";
+    }
+
+    //查询用户浏览的出租房
+    @RequestMapping("searchHouse")
+    public String searchHouse(HouseCondition condition,Model model){
+        if(condition.getPage()==null) condition.setPage(1);
+        if(condition.getRows()==null) condition.setRows(5);
+        //调用业务
+        PageInfo<House> houses=this.houseService.getHouseByBroswer(condition);
+        //填充信息到Model
+        model.addAttribute("houses",houses);
+        model.addAttribute("conditioin",condition);
+        return "list";
     }
 }
