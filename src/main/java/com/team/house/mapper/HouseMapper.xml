@@ -294,4 +294,42 @@
       WHERE h.isdel=0
       and h.ispass=#{ispass}
   </select>
+
+  <!--实现浏览出租房 分页插件,无需考虑分页-->
+  <select id="getHouseByBroswer" resultType="House" parameterType="com.team.house.util.HouseCondition">
+    SELECT
+    price,
+    h.id,
+    title,
+    floorage,
+    contact,
+    path,
+    t.`NAME` AS tname,
+    s.`NAME` AS sname,
+    d.`NAME` AS dname
+    FROM house  h
+    LEFT JOIN TYPE  t ON h.`TYPE_ID` =t.`ID`
+    LEFT JOIN street  s ON h.`STREET_ID` =s.`ID`
+    LEFT JOIN `district` d ON s.`DISTRICT_ID`=d.`ID`
+    WHERE h.isdel=0
+    AND h.ispass=1
+    <if test="title!=null">
+      and title like  CONCAT("%",#{title},"%")
+    </if>
+    <if test="did!=null">
+      and s.DISTRICT_ID=#{did}
+    </if>
+    <if test="sid!=null">
+      and s.id=#{sid}
+    </if>
+    <if test="tid!=null">
+      and t.id=#{tid}
+    </if>
+    <if test="startPrice!=null">
+      and price > #{startPrice}
+    </if>
+    <if test="endPrice!=null">
+      and price &lt; #{endPrice}
+    </if>
+  </select>
 </mapper>
