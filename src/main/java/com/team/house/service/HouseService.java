@@ -2,6 +2,7 @@ package com.team.house.service;
 
 import com.github.pagehelper.PageInfo;
 import com.team.house.entity.House;
+import com.team.house.util.HouseCondition;
 import com.team.house.util.PageUtil;
 
 import java.util.List;
@@ -71,4 +72,11 @@ public interface HouseService {
      * @return 影响行数
      */
     public int updateHousePassState(String id,Integer state);
+
+    /**
+     * 查询所有浏览出租房信息
+     * @param condition 查询条件 分页page,rows
+     * @return
+     */
+    PageInfo<House> getHouseByBroswer(HouseCondition condition);
 }
