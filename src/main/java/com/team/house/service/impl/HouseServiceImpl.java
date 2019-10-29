@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.team.house.entity.House;
 import com.team.house.mapper.HouseMapper;
 import com.team.house.service.HouseService;
+import com.team.house.util.HouseCondition;
 import com.team.house.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +64,16 @@ public class HouseServiceImpl implements HouseService {
         house.setId(id);//编号
         house.setIspass(state);//审核状态
         return houseMapper.updateByPrimaryKeySelective(house);
+    }
+
+    public PageInfo<House> getHouseByBroswer(HouseCondition condition) {
+        // 1.开启分页
+        PageHelper.startPage(condition.getPage(),condition.getRows());
+        // 2. 查询
+        List<House> list=this.houseMapper.getHouseByBroswer(condition);
+        // 3. 获取分页信息
+        PageInfo<House> pageInfo=new PageInfo(list);
+        // 4. 返回数据
+        return pageInfo;
     }
 }
